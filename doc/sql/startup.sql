@@ -23,7 +23,12 @@ CREATE TABLE donation (
 
 select * from geolocation;
 
+
 -- Example queries
+
+insert into geolocation(uuid, lat, long)
+values (uuid_generate_v4(), numeric(5,1) '-34.640745', numeric(5,1) '-58.649488');
+
 select (point(-34.640745, -58.649488) <@> point(-34.590258, -58.379677)) * 1.609344 as distance;
 
 select * from geolocation where 
