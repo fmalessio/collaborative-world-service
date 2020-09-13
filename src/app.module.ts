@@ -4,18 +4,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DonationModule } from './donation/donation.module';
+require('dotenv').config();
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: '0.0.0.0',
-      port: 5432,
-      username: 'postgres',
-      password: 'umcwdb',
-      database: 'collaborative_world',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
       entities: ['dist/**/*.entity.js'],
-      synchronize: true,
+      synchronize: false,
     }),
     ConfigModule.forRoot(),
     DonationModule
