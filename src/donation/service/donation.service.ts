@@ -8,7 +8,7 @@ export class DonationService {
 
     constructor(
         @InjectRepository(Donation)
-        private donationRepository: Repository<Donation>,
+        private donationRepository: Repository<Donation>
     ) { }
 
     findOne(uuid: string): Promise<Donation> {

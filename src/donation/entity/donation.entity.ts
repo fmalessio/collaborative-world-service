@@ -5,9 +5,9 @@ export class Donation {
   @PrimaryGeneratedColumn("uuid")
   uuid: string;
 
-  @Column()
+  @Column({ type: 'float8' })
   lat: number;
 
-  @Column()
+  @Column({ type: 'float8' })
   long: number;
 }

@@ -13,9 +13,7 @@ export class DonationController {
     @Get(':uuid')
     findOne(@Param('uuid') uuid: string, @Res() res: Response) {
         this.donationService.findOne(uuid)
-            .then((data: Donation) => {
-                res.status(HttpStatus.OK).json(data);
-            })
+            .then((data: Donation) => res.status(HttpStatus.OK).json(data))
             .catch(error => { return Promise.reject(new BadRequestException(error)) });
     }
 

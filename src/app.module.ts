@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DonationModule } from './donation/donation.module';
+import { CategoryModule } from './category/category.module';
 require('dotenv').config();
 
 @Module({
@@ -16,10 +17,11 @@ require('dotenv').config();
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: ['dist/**/*.entity.js'],
-      synchronize: false,
+      synchronize: true,
     }),
     ConfigModule.forRoot(),
-    DonationModule
+    DonationModule,
+    CategoryModule
   ],
   controllers: [AppController],
   providers: [AppService],

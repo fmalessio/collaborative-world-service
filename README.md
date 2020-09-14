@@ -14,6 +14,17 @@ Mundo Colaborativo: Busca conectar personas que poseen bienes que no utilicen, c
 $ npm install
 ```
 
+Create a file in proyect root: '.env' with the secret configuration like:
+```bash
+DB_HOST=0.0.0.0
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=umcwdb
+DB_DATABASE=collaborative_world
+PORT=3000
+MODE=DEV
+```
+
 ## Running the app
 
 ```bash
@@ -27,6 +38,10 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Swagger api
+
+http://localhost:3000/api
+
 ## Test
 
 ```bash
@@ -38,6 +53,16 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+```
+
+## Util command
+
+```bash
+nest g module [name]
+nest generate controller [name]
+nest generate service [name]
+nest generate interface [module]/interfaces/[name]
+nest generate class [module]/entity/[name]
 ```
 
 ## Support
