@@ -1,7 +1,11 @@
-import { BadRequestException, Controller, Get, HttpStatus, Param, Res } from '@nestjs/common';
+import {
+    BadRequestException,
+    Body, Controller, Get,
+    HttpStatus, Logger, Param, Post, Res
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { Donation } from '../dto/donation.class';
+import { Donation } from '../entity/donation.entity';
 import { DonationService } from '../service/donation.service';
 
 @ApiTags('Donation')
@@ -15,6 +19,12 @@ export class DonationController {
         this.donationService.findOne(uuid)
             .then((data: Donation) => res.status(HttpStatus.OK).json(data))
             .catch(error => { return Promise.reject(new BadRequestException(error)) });
+    }
+
+    @Post()
+    save(@Body() body: Donation) {
+        Logger.log(`Executing create with ${JSON.stringify(body)}}`, DonationController.name);
+        return this.donationService.save(body);
     }
 
 }

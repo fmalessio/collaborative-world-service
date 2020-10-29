@@ -13,6 +13,9 @@ export class Category {
     @Column()
     description: string;
 
+    @Column({ nullable: true })
+    parentId: number;
+
     @TreeChildren()
     children: Category[];
 

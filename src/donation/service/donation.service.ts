@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { Donation } from '../entity/donation.entity';
 
 @Injectable()
@@ -13,5 +13,9 @@ export class DonationService {
 
     findOne(uuid: string): Promise<Donation> {
         return this.donationRepository.findOne(uuid);
+    }
+
+    save(donation: Donation): Promise<Donation> {
+        return this.donationRepository.save(donation);
     }
 }

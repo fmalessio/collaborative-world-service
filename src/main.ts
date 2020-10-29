@@ -1,10 +1,13 @@
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { AllExceptionsFilter } from './shared/filter/all.exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.enableCors();
+  app.useGlobalFilters(new AllExceptionsFilter());
+  
   const options = new DocumentBuilder()
     .setTitle('Collaborative World')
     .setDescription('Donation program for resources not in use')

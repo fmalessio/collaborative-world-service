@@ -65,16 +65,23 @@ nest generate interface [module]/interfaces/[name]
 nest generate class [module]/entity/[name]
 ```
 
+## Local postgres database
+
+### push database
+```bash
+docker login --username=fmalessio28
+```
+### push database
+```bash
+docker images
+docker tag 62473370e7ee fmalessio28/colworld:v1
+docker push fmalessio28/colworld:v1
+```
+### pull database
+```bash
+docker pull fmalessio28/colworld:v1
+```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-  Nest is [MIT licensed](LICENSE).
