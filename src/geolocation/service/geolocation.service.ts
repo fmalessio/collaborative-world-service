@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Geolocation } from 'src/geolocation/entity/geolocation.entity';
 import { Repository } from 'typeorm';
+import { Geolocation } from '../entity/geolocation.entity';
 
 @Injectable()
 export class GeolocationService {

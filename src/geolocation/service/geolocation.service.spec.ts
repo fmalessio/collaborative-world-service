@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Geolocation } from '../entity/geolocation.entity';
 import { GeolocationService } from './geolocation.service';
 
 describe('GeolocationService', () => {
@@ -6,7 +8,10 @@ describe('GeolocationService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [GeolocationService],
+      providers: [
+        GeolocationService,
+        { provide: getRepositoryToken(Geolocation), useValue: {} }
+      ],
     }).compile();
 
     service = module.get<GeolocationService>(GeolocationService);

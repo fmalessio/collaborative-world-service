@@ -25,3 +25,5 @@ select *,
 
 alter table geolocation rename column long to lng;
 alter table geolocation add column address VARCHAR(256);
+
+select CURRENT_TIMESTAMP;

@@ -5,7 +5,8 @@ import { AppController } from './app.controller';
 import { CategoryModule } from './category/category.module';
 import { DonationModule } from './donation/donation.module';
 import { GeolocationModule } from './geolocation/geolocation.module';
-import { CustomNamingStrategy } from './shared/db/CustomNamingStrategy';
+import { UserModule } from './user/user.module';
+import { NotificationModule } from './notification/notification.module';
 require('dotenv').config();
 
 @Module({
@@ -13,7 +14,6 @@ require('dotenv').config();
     TypeOrmModule.forRoot({
       type: 'postgres',
       synchronize: true,
-      namingStrategy: new CustomNamingStrategy(),
       host: process.env.DB_HOST,
       port: Number(process.env.DB_PORT),
       username: process.env.DB_USER,
@@ -25,7 +25,9 @@ require('dotenv').config();
     ConfigModule.forRoot(),
     DonationModule,
     CategoryModule,
-    GeolocationModule
+    GeolocationModule,
+    UserModule,
+    NotificationModule
   ],
   controllers: [
     AppController
