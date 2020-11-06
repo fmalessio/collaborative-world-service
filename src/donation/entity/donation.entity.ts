@@ -30,13 +30,14 @@ export class Donation {
    @CreateDateColumn({ name: 'start_date', type: 'timestamp', default: () => "CURRENT_TIMESTAMP" })
    startDate: Date;
 
-   @Column({ name: 'end_date', type: 'timestamp' })
+   @Column({ name: 'end_date', type: 'timestamp', nullable: true })
    endDate: Date;
 
-   @Column({ name: 'path_photo_evidence', type: 'varchar', length: 256 })
+   @Column({ name: 'path_photo_evidence', type: 'varchar', length: 256, nullable: true })
    pathPhotoEvidence: string;
 
    @ManyToOne(type => Geolocation, {
+      cascade: true,
       onUpdate: "CASCADE",
       onDelete: "NO ACTION",
       nullable: false
