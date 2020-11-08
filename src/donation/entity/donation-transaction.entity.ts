@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 import { DONATION_STATE } from '../../shared/constant/enum.const';
 import { Donation } from './donation.entity';
 
-@Entity({ name: 'transaction' })
+@Entity({ name: 'donation_transaction' })
 export class DonationTransaction {
    @PrimaryGeneratedColumn("uuid")
    uuid: string;

@@ -32,6 +32,7 @@ MODE=DEV
 $ npm run start
 
 # watch mode
+$ npm run start:local
 $ npm run start:dev
 
 # production mode
