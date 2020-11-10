@@ -2,11 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
+import { BlockchainModule } from './blockchain/blockchain.module';
 import { CategoryModule } from './category/category.module';
 import { DonationModule } from './donation/donation.module';
 import { GeolocationModule } from './geolocation/geolocation.module';
-import { UserModule } from './user/user.module';
 import { NotificationModule } from './notification/notification.module';
+import { UserModule } from './user/user.module';
 require('dotenv').config();
 
 @Module({
@@ -27,12 +28,12 @@ require('dotenv').config();
     CategoryModule,
     GeolocationModule,
     UserModule,
-    NotificationModule
+    NotificationModule,
+    BlockchainModule
   ],
   controllers: [
     AppController
   ],
-  providers: [
-  ]
+  providers: []
 })
 export class AppModule { }

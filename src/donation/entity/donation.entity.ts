@@ -15,6 +15,7 @@ import { DonationTransaction } from './donation-transaction.entity';
 
 @Entity({ name: 'donation' })
 export class Donation {
+
    @PrimaryGeneratedColumn("uuid")
    uuid: string;
 

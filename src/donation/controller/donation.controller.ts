@@ -22,9 +22,9 @@ export class DonationController {
     }
 
     @Post()
-    save(@Body() body: Donation) {
+    create(@Body() body: Donation) {
         Logger.log(`Executing create with ${JSON.stringify(body)}}`, DonationController.name);
-        return this.donationService.save(body);
+        return this.donationService.create(body);
     }
 
 }

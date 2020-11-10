@@ -2,7 +2,11 @@
 select * from category;
 select * from geolocation;
 select * from donation;
---DELETE FROM category;
+
+DELETE FROM bc_block;
+DELETE FROM donation_transaction;
+DELETE FROM donation;
+DELETE FROM geolocation;
 
 insert into geolocation(uuid, lat, lng) 
 values (uuid_generate_v4(), -34.633763, -58.6316297, 
