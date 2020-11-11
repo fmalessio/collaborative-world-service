@@ -23,9 +23,8 @@ export class BlockchainService {
     }
 
     findAllByDonationId(donationId: string): Promise<BCBlock[]> {
-        let BCBlockSearch: BCBlock = new BCBlock();
-        BCBlockSearch.donation = new Donation();
-        BCBlockSearch.donation.uuid = donationId;
-        return this.donationRepository.find(BCBlockSearch);
+        return this.donationRepository.find(
+            { where: { donation: donationId } }
+        );
     }
 }
