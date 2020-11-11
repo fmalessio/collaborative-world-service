@@ -14,6 +14,10 @@ import { NOTIFICATION_STATE } from "../../shared/constant/enum.const";
 @Entity({ name: 'bc_block' })
 export class BCBlock {
 
+    constructor() {
+        this.donation = new Donation();
+    }
+
     @PrimaryGeneratedColumn("uuid")
     uuid: string;
 

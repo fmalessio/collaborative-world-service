@@ -26,7 +26,7 @@ export class Donation {
    ammount: number;
 
    @Column({ type: 'varchar', length: 64, default: DONATION_STATE.CREATED, nullable: false })
-   state: string;
+   state: DONATION_STATE;
 
    @CreateDateColumn({ name: 'start_date', type: 'timestamp', default: () => "CURRENT_TIMESTAMP" })
    startDate: Date;
