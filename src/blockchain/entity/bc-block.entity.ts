@@ -4,6 +4,7 @@ import {
     CreateDateColumn,
     Entity,
     Generated,
+    Index,
     JoinColumn,
     ManyToOne,
     PrimaryGeneratedColumn
@@ -35,6 +36,7 @@ export class BCBlock {
         cascade: false
     })
     @JoinColumn({ name: 'donation_id' })
+    @Index("bc_block_donation_id_idx")
     donation: Donation;
 
 }

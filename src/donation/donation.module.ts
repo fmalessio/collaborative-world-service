@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BlockchainModule } from 'src/blockchain/blockchain.module';
 import { DonationController } from './controller/donation.controller';
 import { Donation } from './entity/donation.entity';
+import { DonationTransactionService } from './service/donation-transaction.service';
 import { DonationService } from './service/donation.service';
 
 @Module({
@@ -14,7 +15,8 @@ import { DonationService } from './service/donation.service';
     DonationController
   ],
   providers: [
-    DonationService
+    DonationService,
+    DonationTransactionService
   ]
 })
 export class DonationModule { }
