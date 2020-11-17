@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BCBlock } from 'src/blockchain/entity/bc-block.entity';
 import { BlockchainService } from 'src/blockchain/service/blockchain.service';
-import { Repository } from 'typeorm';
+import { getManager, Repository } from 'typeorm';
 import { DONATION_STATE, DONATION_STATE_TRANSACTIONS } from '../../shared/constant/enum.const';
 import { DonationTransaction } from '../entity/donation-transaction.entity';
 import { Donation } from '../entity/donation.entity';
 import { BlockchainDonation } from '../model/BlockchainDonation';
+import { DonationNearby } from '../model/DonationNearby';
 
 @Injectable()
 export class DonationService {
@@ -25,6 +26,41 @@ export class DonationService {
         return this.donationRepository.find({
             where: { user: { uuid: uuid } }
         }).then(data => data);
+    }
+
+    async findNearbyDonations(lat: number, lng: number, limit: number): Promise<DonationNearby[]> {
+        const entityManager = getManager();
+        const rawData: any[] = await entityManager.query(
+            `SELECT
+            don.uuid AS uuid,
+            earth_distance(ll_to_earth($1, $2), ll_to_earth(geo.lat, geo.lng)) AS distance
+            FROM 
+            donation don
+            inner join geolocation geo on don.geolocation_id = geo.uuid
+            WHERE 
+            don.state = $4
+            AND earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(geo.lat, geo.lng) 
+            AND earth_distance(ll_to_earth($1, $2), ll_to_earth(geo.lat, geo.lng)) < $3
+            ORDER BY distance ASC`,
+            [lat, lng, limit, DONATION_STATE.READY_TO_TRAVEL]);
+        if (!rawData) {
+            return [];
+        }
+        const selectedIds = rawData.map(({ uuid }) => uuid);
+        const donations: Donation[] = await entityManager.createQueryBuilder(Donation, "don")
+            .where("don.uuid IN (:...uuids)", { uuids: selectedIds })
+            .getMany();
+        let result: DonationNearby[] = [];
+        donations.forEach(element => {
+            let matchedRaw: any = rawData.find(e => e.uuid === element.uuid);
+            if (matchedRaw) {
+                result.push({
+                    donation: element,
+                    distance: matchedRaw.distance
+                });
+            }
+        });
+        return result;
     }
 
     create(donation: Donation): Promise<Donation> {
