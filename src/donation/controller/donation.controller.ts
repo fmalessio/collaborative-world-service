@@ -22,6 +22,13 @@ export class DonationController {
             .catch(error => Promise.reject(new BadRequestException(error)));
     }
 
+    @Get('user/:uuid')
+    findByUser(@Param('uuid') uuid: string, @Res() res: Response) {
+        return this.donationService.findByUser(uuid)
+            .then((data: Donation[]) => res.status(HttpStatus.OK).json(data))
+            .catch(error => Promise.reject(new BadRequestException(error)));
+    }
+
     @Post()
     create(@Body() body: Donation) {
         Logger.log(`Executing create with ${JSON.stringify(body)}}`, DonationController.name);

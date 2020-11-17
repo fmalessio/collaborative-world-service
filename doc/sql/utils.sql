@@ -4,6 +4,7 @@ select * from geolocation;
 select * from donation;
 select * from donation_transaction;
 select * from bc_block;
+select * from "user";
 -- 887819d135cdbdc9928be627198b3ee35d7891790f0613eca026aec7d00eb9b452e762bccab4c85f03ec2679e6c30ac129b2ec3a0ec72f4f1d67b129ce3061d9
 
 DELETE FROM bc_block;
@@ -33,4 +34,6 @@ select *,
 alter table geolocation rename column long to lng;
 alter table geolocation add column address VARCHAR(256);
 
-select CURRENT_TIMESTAMP;	
+select CURRENT_TIMESTAMP;
+
+update donation set user_id = 'f7feadfa-d33a-4ed3-8bf5-b0e090b7381c';

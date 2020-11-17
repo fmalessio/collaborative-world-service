@@ -21,6 +21,12 @@ export class DonationService {
         return this.donationRepository.findOne(uuid);
     }
 
+    findByUser(uuid: string): Promise<Donation[]> {
+        return this.donationRepository.find({
+            where: { user: { uuid: uuid } }
+        }).then(data => data);
+    }
+
     create(donation: Donation): Promise<Donation> {
         if (!donation.follow) {
             donation.state = DONATION_STATE.READY_TO_TRAVEL;

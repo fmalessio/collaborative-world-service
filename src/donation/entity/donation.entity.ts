@@ -1,3 +1,4 @@
+import { User } from 'src/user/entity/user.entity';
 import {
    Column,
    CreateDateColumn,
@@ -36,6 +37,12 @@ export class Donation {
 
    @Column({ name: 'path_photo_evidence', type: 'varchar', length: 256, nullable: true })
    pathPhotoEvidence: string;
+
+   @ManyToOne(type => User, {
+      nullable: false
+   })
+   @JoinColumn({ name: 'user_id' })
+   user: User;
 
    @ManyToOne(type => Geolocation, {
       cascade: true,
