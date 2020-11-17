@@ -24,7 +24,7 @@ export class Donation {
    follow: boolean;
 
    @Column({ type: 'smallint' })
-   ammount: number;
+   amount: number;
 
    @Column({ type: 'varchar', length: 64, default: DONATION_STATE.CREATED, nullable: false })
    state: DONATION_STATE;
@@ -55,7 +55,8 @@ export class Donation {
 
    @OneToOne(type => Box, {
       cascade: true,
-      nullable: false
+      nullable: false,
+      eager: true
    })
    @JoinColumn({ name: 'box_id' })
    box: Box;

@@ -11,7 +11,8 @@ export class Box {
 
    @ManyToOne(type => Category, {
       cascade: false,
-      nullable: false
+      nullable: false,
+      eager: true
    })
    @JoinColumn({ name: 'category_id' })
    category: Category;
