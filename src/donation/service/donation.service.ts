@@ -30,37 +30,23 @@ export class DonationService {
 
     async findNearbyDonations(lat: number, lng: number, limit: number): Promise<DonationNearby[]> {
         const entityManager = getManager();
-        const rawData: any[] = await entityManager.query(
+        const rawData: DonationNearby[] = await entityManager.query(
             `SELECT
-            don.uuid AS uuid,
+            don.uuid AS uuid, don.amount,
+            cat.name AS category_name,
             earth_distance(ll_to_earth($1, $2), ll_to_earth(geo.lat, geo.lng)) AS distance
             FROM 
             donation don
             inner join geolocation geo on don.geolocation_id = geo.uuid
+            inner join box box on don.box_id = box.uuid
+            inner join category cat on box.category_id = cat.id
             WHERE 
             don.state = $4
             AND earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(geo.lat, geo.lng) 
             AND earth_distance(ll_to_earth($1, $2), ll_to_earth(geo.lat, geo.lng)) < $3
             ORDER BY distance ASC`,
             [lat, lng, limit, DONATION_STATE.READY_TO_TRAVEL]);
-        if (!rawData) {
-            return [];
-        }
-        const selectedIds = rawData.map(({ uuid }) => uuid);
-        const donations: Donation[] = await entityManager.createQueryBuilder(Donation, "don")
-            .where("don.uuid IN (:...uuids)", { uuids: selectedIds })
-            .getMany();
-        let result: DonationNearby[] = [];
-        donations.forEach(element => {
-            let matchedRaw: any = rawData.find(e => e.uuid === element.uuid);
-            if (matchedRaw) {
-                result.push({
-                    donation: element,
-                    distance: matchedRaw.distance
-                });
-            }
-        });
-        return result;
+        return rawData;
     }
 
     create(donation: Donation): Promise<Donation> {

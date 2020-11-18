@@ -1,6 +1,7 @@
-import { Donation } from "../entity/donation.entity";
 
 export class DonationNearby {
-    donation: Donation;
+    uuid: string;
+    category_name: string;
+    amount: number;
     distance: number;
 }
