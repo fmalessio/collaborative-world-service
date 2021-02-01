@@ -2,7 +2,7 @@
 /dist
 /node_modules
 
-# collaborative-world
+# dotenv lib to hide variables
 .env
 
 # Logs

@@ -22,12 +22,12 @@ select (point(-34.640745, -58.649488) <@> point(-34.633763, -58.6316297)) * 1.60
 
 select (point(-34.640745, -58.649488) <@> point(-34.633763, -58.6316297)) * 1.609344 as distance;
 
--- Search near to 200km
+-- Search near to 50km
 select *, 
 	earth_distance(ll_to_earth(-34.640745, -58.649488), ll_to_earth(lat, lng)) as distance
 	from geolocation where 
 	earth_box(ll_to_earth(-34.640745, -58.649488), 200000) @> ll_to_earth(lat, lng) 
-    and earth_distance(ll_to_earth(-34.640745, -58.649488), ll_to_earth(lat, lng)) < 200000;
+    and earth_distance(ll_to_earth(-34.640745, -58.649488), ll_to_earth(lat, lng)) < 50000;
 
 --https://www.google.com/maps/search/?api=1&query=-34.640745,-58.649488;
 
