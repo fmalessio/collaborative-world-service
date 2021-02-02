@@ -48,7 +48,8 @@ export class Donation {
       cascade: true,
       onUpdate: "CASCADE",
       onDelete: "NO ACTION",
-      nullable: false
+      nullable: false,
+      eager: true
    })
    @JoinColumn({ name: 'geolocation_id' })
    geolocation: Geolocation;
