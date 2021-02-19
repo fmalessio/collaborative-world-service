@@ -24,7 +24,8 @@ export class DonationService {
 
     findByUser(uuid: string): Promise<Donation[]> {
         return this.donationRepository.find({
-            where: { user: { uuid: uuid } }
+            where: { user: { uuid: uuid } },
+            order: { startDate: "DESC" }
         }).then(data => data);
     }
 
