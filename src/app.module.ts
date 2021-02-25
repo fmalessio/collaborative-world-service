@@ -22,8 +22,11 @@ require('dotenv').config();
       database: process.env.DB_DATABASE,
       entities: ['dist/**/*.entity.js'],
       logging: Boolean(process.env.DB_LOGGING),
+      ssl: Boolean(process.env.DB_SSL) || true,
       extra: {
-        ssl: Boolean(process.env.DB_SSL) || true
+        ssl: {
+          rejectUnauthorized: false
+        }
       }
     }),
     ConfigModule.forRoot(),
