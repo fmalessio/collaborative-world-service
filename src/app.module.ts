@@ -21,7 +21,8 @@ require('dotenv').config();
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: ['dist/**/*.entity.js'],
-      logging: Boolean(process.env.DB_LOGGING)
+      logging: Boolean(process.env.DB_LOGGING),
+      ssl: (Boolean(process.env.DB_SSL) || true)
     }),
     ConfigModule.forRoot(),
     DonationModule,
