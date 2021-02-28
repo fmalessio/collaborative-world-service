@@ -1,3 +1,5 @@
+
+
 # collaborative-world-service
 Mundo Colaborativo: Busca conectar personas que poseen bienes que no utilicen, colaboradores que sean capaces de transportar esos bienes y carenciados que los requieran.
 
@@ -19,6 +21,7 @@ DB_PORT=5432
 DB_USER=umcw
 DB_PASSWORD=umcw
 DB_DATABASE=collaborative_world
+DB_SSL=false
 PORT=3000
 MODE=DEV
 ```
@@ -95,3 +98,21 @@ docker pull fmalessio28/colworld:latest
 ```
 ## Support
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+
+# Heroku
+# Start (or link with existing app)
+heroku create
+git push heroku development:master
+heroku logs --tail
+
+# Config
+heroku config:set DB_HOST=
+heroku config:set DB_PORT=
+heroku config:set DB_USER=
+heroku config:set DB_PASSWORD=
+heroku config:set DB_DATABASE=
+heroku config:set NODE_ENV=production
+
+## Throw deploy without changes
+git commit --allow-empty -m "Trigger Heroku Deploy"
+git push heroku master
