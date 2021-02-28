@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/guard/jwt-auth.guard';
 import { BlockchainModule } from './blockchain/blockchain.module';
 import { CategoryModule } from './category/category.module';
 import { DonationModule } from './donation/donation.module';
@@ -11,7 +13,7 @@ import { NotificationModule } from './notification/notification.module';
 import { UserModule } from './user/user.module';
 require('dotenv').config();
 
-export const GetTypeOrmConfig = (): any => {
+const GetTypeOrmConfig = (): any => {
   const config = {
     type: 'postgres',
     synchronize: true,
@@ -52,6 +54,11 @@ export const GetTypeOrmConfig = (): any => {
   controllers: [
     AppController
   ],
-  providers: []
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    }
+  ]
 })
 export class AppModule { }

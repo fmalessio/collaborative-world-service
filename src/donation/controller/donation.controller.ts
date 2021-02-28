@@ -3,7 +3,7 @@ import {
     Body, Controller, Get,
     HttpStatus, Logger, Param, Post, Put, Query, Res
 } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { DONATION_STATE } from 'src/shared/constant/enum.const';
 import { Donation } from '../entity/donation.entity';
@@ -11,6 +11,7 @@ import { DonationNearby } from '../model/DonationNearby';
 import { DonationService } from '../service/donation.service';
 
 @ApiTags('Donation')
+@ApiBearerAuth()
 @Controller('donation')
 export class DonationController {
 
