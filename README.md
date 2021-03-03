@@ -100,19 +100,27 @@ docker pull fmalessio28/colworld:latest
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Heroku
-### Start (or link with existing app)
+### Start
+```bash
 heroku create
 git push heroku development:master
 heroku logs --tail
-
+```
+### Or link with existing app
+```bash
+heroku git:remote -a thawing-inlet-61413
+```
 ### Config
+```bash
 heroku config:set DB_HOST=
 heroku config:set DB_PORT=
 heroku config:set DB_USER=
 heroku config:set DB_PASSWORD=
 heroku config:set DB_DATABASE=
 heroku config:set NODE_ENV=production
-
+```
 ### Throw deploy without changes
+```bash
 git commit --allow-empty -m "Trigger Heroku Deploy"
 git push heroku master
+```
