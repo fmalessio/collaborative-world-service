@@ -15,9 +15,17 @@ export class AuthService {
     }
 
     async login(user: any) {
-        const payload = { username: user.username, id: user.uuid };
+        const payload = { username: user.username, app: 'collaborative-world-service' };
         return {
             access_token: this.jwtService.sign(payload),
         };
+    }
+
+    alive(token: string): boolean {
+        token = token.replace('Bearer ', '');
+        const decoded = this.jwtService.verify(token);
+        const tokenExp = new Date(0);
+        tokenExp.setUTCSeconds(decoded.exp);
+        return new Date() < tokenExp;
     }
 }
