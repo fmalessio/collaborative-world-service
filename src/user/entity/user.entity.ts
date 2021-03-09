@@ -9,8 +9,11 @@ export class User {
    @Column({ name: 'full_name', type: 'varchar', length: 64, nullable: false })
    fullName: string;
 
-   @Column({ type: 'varchar', length: 16, nullable: false, unique: true })
+   @Column({ type: 'varchar', length: 16, nullable: true, unique: true })
    alias: string;
+
+   @Column({ type: 'varchar', length: 64, nullable: false, unique: true })
+   username: string;
 
    @Column({ type: 'varchar', length: 64, nullable: false, unique: true })
    password: string;

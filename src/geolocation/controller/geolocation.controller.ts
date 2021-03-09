@@ -1,10 +1,11 @@
 import { BadRequestException, Controller, Get, HttpStatus, Param, Res } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Geolocation } from '../entity/geolocation.entity';
 import { GeolocationService } from '../service/geolocation.service';
 
 @ApiTags('Geolocation')
+@ApiBearerAuth()
 @Controller('geolocation')
 export class GeolocationController {
 

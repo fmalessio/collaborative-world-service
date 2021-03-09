@@ -1,10 +1,11 @@
 import { BadRequestException, Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Category } from '../entity/category.entity';
 import { CategoryService } from '../service/category.service';
 
 @ApiTags('Category')
+@ApiBearerAuth()
 @Controller('category')
 export class CategoryController {
 

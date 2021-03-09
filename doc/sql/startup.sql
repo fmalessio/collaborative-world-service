@@ -9,5 +9,5 @@ CREATE extension IF NOT EXISTS "uuid-ossp";
  * After start
  */
 -- User test
-INSERT INTO "user" (uuid, full_name, alias, password, active)
-VALUES (uuid_generate_v4(), 'Federico Marcos Alessio', 'fmalessio', '1234', true);
+INSERT INTO "user" (uuid, full_name, alias, username, password, active)
+VALUES (uuid_generate_v4(), 'Federico Marcos Alessio', 'fmalessio', 'fmalessio', '1234', true);

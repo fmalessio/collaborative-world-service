@@ -1,8 +1,9 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiTags } from '@nestjs/swagger';
 import { BlockchainService } from '../service/blockchain.service';
 
 @ApiTags('Blockchain')
+@ApiBearerAuth()
 @Controller('blockchain')
 export class BlockchainController {
 
