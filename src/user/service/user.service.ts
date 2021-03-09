@@ -13,7 +13,7 @@ export class UserService {
 
     async findOne(username: string, pass: string): Promise<User | undefined> {
         return this.userRepository.findOne(
-            { username: username, password: pass }
+            { username: username, password: pass, active: true }
         );
     }
 }

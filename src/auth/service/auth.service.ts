@@ -1,5 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { LoggedUser, LoginUser } from 'src/user/dto/user.dto';
+import { User } from 'src/user/entity/user.entity';
 import { UserService } from 'src/user/service/user.service';
 
 @Injectable()
@@ -9,16 +11,22 @@ export class AuthService {
         private jwtService: JwtService
     ) { }
 
-    async validateUser(username: string, pass: string): Promise<any> {
-        const user = await this.usersService.findOne(username, pass);
-        return user ? user : null;
-    }
-
-    async login(user: any) {
+    async login(loginUser: LoginUser): Promise<LoggedUser> {
+        const user: User = await this.usersService.findOne(
+            loginUser.username, 
+            loginUser.password);
+        if (!user) {
+            throw new UnauthorizedException();
+        }
+        delete user.password;
+        delete user.notifications;
+        delete user.active;
         const payload = { username: user.username, app: 'collaborative-world-service' };
-        return {
-            access_token: this.jwtService.sign(payload),
-        };
+        const loggedUser: LoggedUser = Object.assign(
+            user,
+            { access_token: this.jwtService.sign(payload) }
+        );
+        return loggedUser;
     }
 
     alive(token: string): boolean {

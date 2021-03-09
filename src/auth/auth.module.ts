@@ -6,7 +6,6 @@ import { jwtConstants } from './constants';
 import { AuthController } from './controller/auth.controller';
 import { AuthService } from './service/auth.service';
 import { JwtStrategy } from './strategy/jwt.strategy';
-import { LocalStrategy } from './strategy/local.strategy';
 
 @Module({
   imports: [
@@ -19,7 +18,6 @@ import { LocalStrategy } from './strategy/local.strategy';
   ],
   providers: [
     AuthService,
-    LocalStrategy,
     JwtStrategy
   ],
   exports: [
