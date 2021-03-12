@@ -19,7 +19,6 @@ export class AuthController {
     @Public()
     @Get('alive')
     alive(@Headers('Authorization') token: string) {
-        console.log(token);
         return this.authService.alive(token);
     }
 
