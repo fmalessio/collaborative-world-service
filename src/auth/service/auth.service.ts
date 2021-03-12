@@ -13,7 +13,7 @@ export class AuthService {
 
     async login(loginUser: LoginUser): Promise<LoggedUser> {
         const user: User = await this.usersService.findOne(
-            loginUser.username, 
+            loginUser.username,
             loginUser.password);
         if (!user) {
             throw new UnauthorizedException();
@@ -31,7 +31,7 @@ export class AuthService {
 
     alive(token: string): boolean {
         token = token.replace('Bearer ', '');
-        const decoded = this.jwtService.verify(token);
+        const decoded: any = this.jwtService.decode(token);
         const tokenExp = new Date(0);
         tokenExp.setUTCSeconds(decoded.exp);
         return new Date() < tokenExp;

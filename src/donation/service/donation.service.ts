@@ -22,11 +22,11 @@ export class DonationService {
         return this.donationRepository.findOne(uuid);
     }
 
-    findByUser(uuid: string): Promise<Donation[]> {
-        return this.donationRepository.find({
-            where: { user: { uuid: uuid } },
-            order: { startDate: "DESC" }
-        }).then(data => data);
+    findByUser(uuid: string, states?: DONATION_STATE[]): Promise<Donation[]> {
+        if (states) {
+            return this.findByUserAndStates(uuid, states);
+        }
+        return this.findByUserUuid(uuid);
     }
 
     async findNearbyDonations(lat: number, lng: number, limit: number): Promise<DonationNearby[]> {
@@ -111,5 +111,26 @@ export class DonationService {
             }
             return Promise.resolve({ donation: donation, blockchain: blockchain });
         });
+    }
+
+    private findByUserUuid(uuid: string): Promise<Donation[]> {
+        return this.donationRepository.find({
+            where: { user: { uuid: uuid } },
+            order: { startDate: "DESC" }
+        }).then(data => data);
+    }
+
+    private findByUserAndStates(uuid: string, states: DONATION_STATE[]): Promise<Donation[]> {
+        return this.donationRepository.createQueryBuilder('don')
+            .innerJoin('don.user', 'user')
+            .innerJoinAndSelect('don.box', 'box')
+            .innerJoinAndSelect('box.category', 'category')
+            .innerJoinAndSelect('don.geolocation', 'geolocation')
+            .innerJoinAndSelect('don.transactions', 'transactions')
+            .where(
+                'user.uuid = :uuid and don.state IN (:states)',
+                { uuid: uuid, states: states }
+            )
+            .getMany();
     }
 }

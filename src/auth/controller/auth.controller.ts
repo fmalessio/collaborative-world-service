@@ -16,6 +16,7 @@ export class AuthController {
         return this.authService.login(req);
     }
 
+    @Public()
     @Get('alive')
     alive(@Headers('Authorization') token: string) {
         return this.authService.alive(token);

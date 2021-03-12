@@ -25,8 +25,12 @@ export class DonationController {
     }
 
     @Get('user/:uuid')
-    findByUser(@Param('uuid') uuid: string, @Res() res: Response) {
-        return this.donationService.findByUser(uuid)
+    @ApiQuery({ name: 'states', isArray: true, enum: DONATION_STATE, required: false })
+    findByUser(
+        @Param('uuid') uuid: string,
+        @Res() res: Response,
+        @Query('states') states?: DONATION_STATE[]) {
+        return this.donationService.findByUser(uuid, states)
             .then((data: Donation[]) => res.status(HttpStatus.OK).json(data))
             .catch(error => Promise.reject(new BadRequestException(error)));
     }
