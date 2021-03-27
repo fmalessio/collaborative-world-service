@@ -43,8 +43,9 @@ export class DonationController {
         @Query('lat') lat: number,
         @Query('lng') lng: number,
         @Query('limit') limit: number,
+        @Query('user') userId: string,
         @Res() res: Response) {
-        return this.donationService.findNearbyDonations(lat, lng, limit)
+        return this.donationService.findNearbyDonations(lat, lng, limit, userId)
             .then((data: DonationNearby[]) => res.status(HttpStatus.OK).json(data))
             .catch(error => Promise.reject(new BadRequestException(error)));
     }

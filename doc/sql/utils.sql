@@ -22,12 +22,34 @@ select (point(-34.640745, -58.649488) <@> point(-34.633763, -58.6316297)) * 1.60
 
 select (point(-34.640745, -58.649488) <@> point(-34.633763, -58.6316297)) * 1.609344 as distance;
 
+-- Plaza Oeste
+latitude: -34.63284719532406,
+longitude: -58.6296368183098
+  
 -- Search near to 50km
 select *, 
-	earth_distance(ll_to_earth(-34.640745, -58.649488), ll_to_earth(lat, lng)) as distance
+	earth_distance(ll_to_earth(-34.63284719532406, -58.6296368183098), ll_to_earth(lat, lng)) as distance
 	from geolocation where 
-	earth_box(ll_to_earth(-34.640745, -58.649488), 200000) @> ll_to_earth(lat, lng) 
-    and earth_distance(ll_to_earth(-34.640745, -58.649488), ll_to_earth(lat, lng)) < 50000;
+	earth_box(ll_to_earth(-34.63284719532406, -58.6296368183098), 50000) @> ll_to_earth(lat, lng) 
+    and earth_distance(ll_to_earth(-34.63284719532406, -58.6296368183098), ll_to_earth(lat, lng)) < 50000
+	order by distance asc;
+
+SELECT
+don.uuid AS uuid, don.amount,
+cat.name AS category_name,
+don.amount as ammount,
+earth_distance(ll_to_earth(-34.63284719532406, -58.6296368183098), ll_to_earth(geo.lat, geo.lng)) AS distance
+FROM 
+donation don
+inner join geolocation geo on don.geolocation_id = geo.uuid
+inner join box box on don.box_id = box.uuid
+inner join category cat on box.category_id = cat.id
+WHERE 
+don.state = 'READY_TO_TRAVEL'
+and don.user_id != 'f7feadfa-d33a-4ed3-8bf5-b0e090b73811'
+AND earth_box(ll_to_earth(-34.63284719532406, -58.6296368183098), 50000) @> ll_to_earth(geo.lat, geo.lng) 
+AND earth_distance(ll_to_earth(-34.63284719532406, -58.6296368183098), ll_to_earth(geo.lat, geo.lng)) < 50000
+ORDER BY distance asc;
 
 --https://www.google.com/maps/search/?api=1&query=-34.640745,-58.649488;
 
@@ -37,3 +59,9 @@ alter table geolocation add column address VARCHAR(256);
 select CURRENT_TIMESTAMP;
 
 update donation set user_id = 'f7feadfa-d33a-4ed3-8bf5-b0e090b7381c';
+
+-- User test 2
+INSERT INTO "user" (uuid, full_name, alias, username, password, active)
+VALUES (uuid_generate_v4(), 'Federico Marcos Alessio', 'fmalessio3', 'fmalessio3', '1234', true);
+
+ALTER TABLE "user" DROP CONSTRAINT "UQ_638bac731294171648258260ff2";

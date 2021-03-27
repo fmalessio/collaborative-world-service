@@ -29,11 +29,16 @@ export class DonationService {
         return this.findByUserUuid(uuid);
     }
 
-    async findNearbyDonations(lat: number, lng: number, limit: number): Promise<DonationNearby[]> {
+    async findNearbyDonations(
+        lat: number,
+        lng: number,
+        metersLimit: number,
+        userId: string): Promise<DonationNearby[]> {
         const entityManager = getManager();
         const rawData: DonationNearby[] = await entityManager.query(
             `SELECT
-            don.uuid AS uuid, don.amount,
+            don.uuid AS uuid,
+            don.amount,
             cat.name AS category_name,
             earth_distance(ll_to_earth($1, $2), ll_to_earth(geo.lat, geo.lng)) AS distance
             FROM 
@@ -43,10 +48,11 @@ export class DonationService {
             inner join category cat on box.category_id = cat.id
             WHERE 
             don.state = $4
+            AND don.user_id != $5
             AND earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(geo.lat, geo.lng) 
             AND earth_distance(ll_to_earth($1, $2), ll_to_earth(geo.lat, geo.lng)) < $3
             ORDER BY distance ASC`,
-            [lat, lng, limit, DONATION_STATE.READY_TO_TRAVEL]);
+            [lat, lng, metersLimit, DONATION_STATE.READY_TO_TRAVEL, userId]);
         return rawData;
     }
 
