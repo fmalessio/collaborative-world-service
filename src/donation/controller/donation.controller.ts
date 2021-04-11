@@ -50,6 +50,17 @@ export class DonationController {
             .catch(error => Promise.reject(new BadRequestException(error)));
     }
 
+    @Get('collaborator/:uuid')
+    @ApiQuery({ name: 'states', isArray: true, enum: DONATION_STATE, required: false })
+    findByCollaborator(
+        @Param('uuid') collaboratorUuid: string,
+        @Res() res: Response,
+        @Query('states') states?: DONATION_STATE[]) {
+        return this.donationService.findByCollaborator(collaboratorUuid, states)
+            .then((data: Donation[]) => res.status(HttpStatus.OK).json(data))
+            .catch(error => Promise.reject(new BadRequestException(error)));
+    }
+
     @Post()
     create(@Body() body: Donation) {
         Logger.log(`Executing create with ${JSON.stringify(body)}}`, DonationController.name);

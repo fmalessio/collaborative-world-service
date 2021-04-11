@@ -60,6 +60,22 @@ export class DonationService {
         return rawData;
     }
 
+    findByCollaborator(uuid: string, states: DONATION_STATE[]): Promise<Donation[]> {
+        return this.donationRepository.createQueryBuilder('don')
+            .innerJoin('don.user', 'user')
+            .innerJoinAndSelect('don.box', 'box')
+            .innerJoinAndSelect('box.category', 'category')
+            .innerJoinAndSelect('don.geolocation', 'geolocation')
+            .innerJoinAndSelect('don.transactions', 'transactions')
+            .where(
+                'transactions.collaborator_id = :uuid ' +
+                'AND transactions.state IN (:states) ' +
+                'AND don.state IN (:states)',
+                { uuid: uuid, states: states }
+            )
+            .getMany();
+    }
+
     create(donation: Donation): Promise<Donation> {
         if (!donation.follow) {
             donation.state = DONATION_STATE.READY_TO_TRAVEL;
