@@ -1,3 +1,4 @@
+import { User } from 'src/user/entity/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { DONATION_STATE } from '../../shared/constant/enum.const';
 import { Donation } from './donation.entity';
@@ -18,5 +19,12 @@ export class DonationTransaction {
    })
    @JoinColumn({ name: 'donation_id' })
    donation: Donation;
+
+   @ManyToOne(type => User, {
+      nullable: true,
+      eager: false
+   })
+   @JoinColumn({ name: 'collaborator_id' })
+   collaborator: User;
 
 }

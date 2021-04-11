@@ -56,17 +56,17 @@ export class DonationController {
         return this.donationService.create(body);
     }
 
-    @Put('/:uuid/state/:state')
+    @Post('/:uuid/state/:state')
+    @ApiQuery({ name: 'collaborator', type: 'string', required: false })
     changeState(
         @Param('uuid') uuid: string,
         @Param('state') newState: DONATION_STATE,
-        @Res() res: Response) {
+        @Res() res: Response,
+        @Query('collaborator') collaborator?: string) {
         Logger.log(`Executing changeState: ${uuid} -> ${newState}`, DonationController.name);
-        return this.donationService.changeState(uuid, newState)
-            .then(
-                () => res.status(HttpStatus.OK).json(),
-                (error: string) => Promise.reject(new BadRequestException(error))
-            ).catch(error => Promise.reject(new BadRequestException(error)));
+        return this.donationService.changeState(uuid, newState, collaborator)
+            .then((data: Donation) => res.status(HttpStatus.OK).json(data))
+            .catch(error => Promise.reject(new BadRequestException(error)));
     }
 
 }

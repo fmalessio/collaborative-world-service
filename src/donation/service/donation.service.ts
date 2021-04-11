@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BCBlock } from 'src/blockchain/entity/bc-block.entity';
 import { BlockchainService } from 'src/blockchain/service/blockchain.service';
+import { User } from 'src/user/entity/user.entity';
 import { getManager, Repository } from 'typeorm';
 import { DONATION_STATE, DONATION_STATE_TRANSACTIONS } from '../../shared/constant/enum.const';
 import { DonationTransaction } from '../entity/donation-transaction.entity';
@@ -40,6 +41,9 @@ export class DonationService {
             don.uuid AS uuid,
             don.amount,
             cat.name AS category_name,
+            geo.address AS address,
+            geo.lat AS lat,
+            geo.lng AS lng,
             earth_distance(ll_to_earth($1, $2), ll_to_earth(geo.lat, geo.lng)) AS distance
             FROM 
             donation don
@@ -75,12 +79,17 @@ export class DonationService {
         });
     }
 
-    changeState(uuid: string, newState: DONATION_STATE): Promise<Donation | string> {
+    changeState(uuid: string, newState: DONATION_STATE, collaborator?: string): Promise<Donation | string> {
         return this.changeStateValid(uuid, newState)
             .then((result: BlockchainDonation) => {
                 result.donation.state = newState;
                 let newTx: DonationTransaction = new DonationTransaction();
                 newTx.state = newState;
+                if (collaborator) {
+                    let coll: User = new User();
+                    coll.uuid = collaborator;
+                    newTx.collaborator = coll;
+                }
                 result.donation.transactions.push(newTx);
                 return this.donationRepository.save(result.donation).then(donationResult => {
                     const lastTx = donationResult.transactions[donationResult.transactions.length - 1];
