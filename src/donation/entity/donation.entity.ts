@@ -44,6 +44,9 @@ export class Donation {
    @JoinColumn({ name: 'user_id' })
    user: User;
 
+   @Column({ type: 'uuid', name: 'user_id', nullable: false })
+   userId: string;
+
    @ManyToOne(type => Geolocation, {
       cascade: true,
       onUpdate: "CASCADE",

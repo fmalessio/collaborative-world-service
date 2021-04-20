@@ -26,8 +26,13 @@ export class BlockchainService {
 
     addBlock(blockchain: BCBlock[], newTx: DonationTransaction, uuid: string) {
         const lastBlok: BCBlock = blockchain[blockchain.length - 1];
-        this.saveNewBlock(newTx, lastBlok.hash, uuid).then((newBlock: BCBlock) => {
-            lastBlok.nextHash = newBlock.hash;
+        const newTxBlock: any = {
+            uuid: newTx.uuid,
+            generation_date: newTx.generationDate,
+            state: newTx.state
+        };
+        this.saveNewBlock(newTxBlock, lastBlok.hash, uuid).then((newBlockSaved: BCBlock) => {
+            lastBlok.nextHash = newBlockSaved.hash;
             this.blockchainRepository.save(lastBlok);
         });
     }
