@@ -19,9 +19,10 @@ export class BlockchainService {
     }
 
     findAllByDonationId(donationId: string): Promise<BCBlock[]> {
-        return this.blockchainRepository.find(
-            { where: { donation: donationId } }
-        );
+        return this.blockchainRepository.find({ 
+            where: { donation: donationId },
+            order: { createdDate: "ASC" }
+        });
     }
 
     addBlock(blockchain: BCBlock[], newTx: DonationTransaction, uuid: string) {
