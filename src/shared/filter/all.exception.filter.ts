@@ -15,15 +15,18 @@ export class AllExceptionsFilter implements ExceptionFilter {
         const response = ctx.getResponse();
         const request = ctx.getRequest();
 
-        const status =
-            exception instanceof HttpException
-                ? exception.getStatus()
-                : HttpStatus.INTERNAL_SERVER_ERROR;
+        let status = HttpStatus.INTERNAL_SERVER_ERROR;
+        let message = 'Unknow';
+        if (exception instanceof HttpException) {
+            status = exception.getStatus();
+            message = exception.message;
+        }
 
         response.status(status).json({
             statusCode: status,
             timestamp: new Date().toISOString(),
             path: request.url,
+            message: message
         });
     }
 }
