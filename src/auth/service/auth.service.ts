@@ -1,5 +1,6 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, ServiceUnavailableException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { Observable, throwError } from 'rxjs';
 import { LoggedUser, LoginUser } from 'src/user/dto/user.dto';
 import { User } from 'src/user/entity/user.entity';
 import { UserService } from 'src/user/service/user.service';
@@ -16,7 +17,7 @@ export class AuthService {
             loginUser.username,
             loginUser.password);
         if (!user) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException('Usuario o contraseña inválidos');
         }
         delete user.password;
         delete user.notifications;

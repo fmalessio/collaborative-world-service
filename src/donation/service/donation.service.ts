@@ -136,7 +136,11 @@ export class DonationService {
             }
             const lastBCBlock: BCBlock = blockchain[blockchain.length - 1];
             if (!this.blockchainService.compare(
-                { uuid: lastTx.uuid, generation_date: lastTx.generationDate, state: lastTx.state },
+                {
+                    uuid: lastTx.uuid,
+                    generation_date: lastTx.generationDate,
+                    state: lastTx.state
+                },
                 lastBCBlock.hash)) {
                 return Promise.reject('Error en los estados de la donación (Code C)');
             }

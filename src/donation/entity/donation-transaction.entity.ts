@@ -20,6 +20,9 @@ export class DonationTransaction {
    @JoinColumn({ name: 'donation_id' })
    donation: Donation;
 
+   @Column({ type: 'uuid', name: 'collaborator_id', nullable: true })
+   collaborator_id: string;
+
    @ManyToOne(type => User, {
       nullable: true,
       eager: false
