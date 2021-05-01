@@ -11,7 +11,7 @@ async function bootstrap() {
   const options = new DocumentBuilder()
     .setTitle('Collaborative World')
     .setDescription('Donation program for resources not in use')
-    .setVersion('1.0')
+    .setVersion('1.1')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
